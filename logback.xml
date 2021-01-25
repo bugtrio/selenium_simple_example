@@ -1,0 +1,26 @@
+<configuration>
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <filter class="ch.qos.logback.classic.filter.LevelFilter">
+         <level>INFO</level>
+         <onMatch>ACCEPT</onMatch>
+         <onMismatch>DENY</onMismatch>
+      </filter>
+      <encoder>
+         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+      </encoder>
+   </appender>
+ 
+   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+      <file>logs/selenium_poc.log</file>
+      <append>true</append>
+      <encoder>
+         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+      </encoder>
+   </appender>
+ 
+   <root level="debug">
+      <appender-ref ref="FILE" />
+      <appender-ref ref="STDOUT" />
+   </root>
+ 
+</configuration>
