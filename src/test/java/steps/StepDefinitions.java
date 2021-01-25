@@ -44,7 +44,7 @@ public class StepDefinitions {
 	@Then("it should be added to cart")
 	public void it_will_be_added_to_cart() {
 		shoppingCartPage = new ShoppingCartPage();
-		BasicAssert.containsItems(shoppingCartPage.checkCart(), DataLakeClient.productMap.get("valid").name);
+		BasicAssert.containsMessage(shoppingCartPage.checkCart(), DataLakeClient.productMap.get("valid").name);
 	}
 
 	@Then("it should be sold out")

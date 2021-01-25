@@ -8,8 +8,4 @@ public class BasicAssert {
 		assertTrue(obtainedMessage.contains(expectedMessage));
 	}
 
-	public static void containsItems(String value, String name) {
-		assertTrue(value.contains(name));
-	}
-
 }
