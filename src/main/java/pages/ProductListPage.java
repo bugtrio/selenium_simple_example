@@ -1,5 +1,7 @@
 package pages;
 
+import java.text.MessageFormat;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -7,6 +9,10 @@ import org.openqa.selenium.support.How;
 import core.BasePage;
 
 public class ProductListPage extends BasePage {
+	
+	private final static String SOLD_OUT_MSG = "não disponível";
+	private final static String INVALID_MSG = "Sua busca por {0} não encontrou resultado algum";
+	
 	@FindBy(how = How.CSS, using = "li[id^='product_'] a[class='product-li']")
 	private WebElement validProductButton;
 	@FindBy(how = How.CSS, using = "span[class='product-soldout']")
@@ -31,10 +37,10 @@ public class ProductListPage extends BasePage {
 	}
 	
 	public String soldOutMessage() {
-		return "não disponível";
+		return SOLD_OUT_MSG;
 	}
 	
 	public String invalidMessage(String productId) {
-		return "Sua busca por " + productId + " não encontrou resultado algum";
+		return MessageFormat.format(INVALID_MSG, productId);
 	}
 }
