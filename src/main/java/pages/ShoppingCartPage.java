@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import core.BasePage;
+import exceptions.PageException;
 
 public class ShoppingCartPage extends BasePage {
 	@FindBy(how = How.CSS, using = "a[class='BasketItemProduct-info-title']")
@@ -14,7 +15,7 @@ public class ShoppingCartPage extends BasePage {
 		super();
 	}
 	
-	public String checkCart() {
+	public String checkCart() throws PageException {
 		return getText(cartDetailText);
 	}
 }

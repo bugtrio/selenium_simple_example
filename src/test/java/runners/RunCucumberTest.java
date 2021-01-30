@@ -10,7 +10,7 @@ import cucumber.api.junit.Cucumber;
 		"json:target/cucumber-report.json" }, 
 		features = { "classpath:features/" }, 
 		glue = { "steps", "hooks" },
-		tags = { "@Smoke, @Regression" })
+		tags = { "@Smoke or @Regression" })
 public class RunCucumberTest {
 
 }

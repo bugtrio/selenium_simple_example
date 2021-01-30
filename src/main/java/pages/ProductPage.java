@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import core.BasePage;
+import exceptions.PageException;
 
 public class ProductPage extends BasePage {
 	@FindBy(how = How.CSS, using = "p[class='text-button-cookie']")
@@ -16,7 +17,7 @@ public class ProductPage extends BasePage {
 		super();
 	}
 	
-	public void addToCart() {
+	public void addToCart() throws PageException {
 		click(cookieButton); //Closing cookie banner before click to avoid it breaks the next click
 		click(addCartButton);
 	}
