@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import core.BasePage;
+import exceptions.PageException;
 
 public class ProductListPage extends BasePage {
 	
@@ -24,15 +25,15 @@ public class ProductListPage extends BasePage {
 		super();
 	}
 	
-	public void clickProduct() {
+	public void clickProduct() throws PageException {
 		click(validProductButton);
 	}
 	
-	public String checkSoldOut() {
+	public String checkSoldOut() throws PageException {
 		return getText(productSoldOut);
 	}
 	
-	public String checkErrorMessage() {
+	public String checkErrorMessage() throws PageException {
 		return getText(productNotFoundText);
 	}
 	

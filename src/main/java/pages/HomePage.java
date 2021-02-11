@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import core.BasePage;
+import exceptions.PageException;
 
 public class HomePage extends BasePage {
 	@FindBy(how = How.ID, using = "inpHeaderSearch")
@@ -16,15 +17,15 @@ public class HomePage extends BasePage {
 		super();
 	}
 	
-	public void openEcommerce() {
+	public void openEcommerce() throws PageException {
 		navigateTo("http://www.magazineluiza.com.br");
 	}
 	
-	public void searchProduct(String id) {
+	public void searchProduct(String id) throws PageException {
 		search(id);
 	}
 
-	private void search(String productId) {
+	private void search(String productId) throws PageException {
 		sendKeys(searchField, productId);
 		click(searchButton);
 	}
