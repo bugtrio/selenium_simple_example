@@ -1,19 +1,24 @@
 package core;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.GeckoDriverService;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 
 import enums.DriverType;
@@ -27,6 +32,7 @@ public class DriverFactory {
 	private static final String BASE_DIR = System.getProperty("user.dir") + File.separator + "drivers" + File.separator;
 	private static final String FIREFOX_BIN_WIN = "C:" + File.separator + "Program Files" + File.separator + "Mozilla Firefox" + File.separator + "firefox.exe";
 	private static final String FIREFOX_BIN_LINUX = "";
+	private static final String REMOTE_DRIVER_URL = "http://localhost:4444/wd/hub";
 
 	/**
 	 * Utiliza o mecanismo de Supplier do Java8 para deixar os drivers do Chrome e
@@ -37,19 +43,40 @@ public class DriverFactory {
 		ChromeOptions options = new ChromeOptions();
 		addBasicChromeOptions(options);
 		addHeadlessChromeOptions(options);
-		return new ChromeDriver(service, options);
+		return  isRemote()? createRemoteDriver(options) : new ChromeDriver(service, options);
 	};
 
 	private static final Supplier<WebDriver> firefoxDriverSupplier = () -> {
 		GeckoDriverService service = (GeckoDriverService) createDriverService(DriverType.FIREFOX);
-		return new FirefoxDriver(service);
-
+		FirefoxOptions options = new FirefoxOptions();
+		return  isRemote()? createRemoteDriver(options) : new FirefoxDriver(service);
 	};
 	static {
 		driverMap.put(DriverType.CHROME, chromeDriverSupplier);
 		driverMap.put(DriverType.FIREFOX, firefoxDriverSupplier);
 	}
 
+	/**
+	 * Verifica se a execucao corrente eh remota
+	 * @return se remoto
+	 */
+	private static Boolean isRemote() {
+		return StringUtils.isNotBlank(System.getProperty("remote")) && System.getProperty("remote").equalsIgnoreCase("true");
+	}
+
+	/**
+	 * Cria uma instancia do driver remoto de acordo com o parametro options
+	 * @param options
+	 * @return remote driver
+	 */
+	private static WebDriver createRemoteDriver(MutableCapabilities options){
+		try {
+			return new RemoteWebDriver(new URL(REMOTE_DRIVER_URL), options);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/**
 	 * Recebe o tipo de driver que deve ser criado e retorna a instancia desejada.
 	 * 

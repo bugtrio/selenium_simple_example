@@ -9,7 +9,7 @@ import enums.DriverType;
  * Classe singleton para gerenciamento do driver
  */
 public class DriverManager {
-	private static WebDriver driver;
+	private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	
 	/**
 	 * Cria e/ou retorna o driver.
@@ -17,13 +17,9 @@ public class DriverManager {
 	 * @return
 	 */
 	public static WebDriver getDriver() {
-		if (driver == null) {
-			if (StringUtils.isNotBlank(System.getProperty("browser")) && System.getProperty("browser").equalsIgnoreCase("firefox"))
-				driver = DriverFactory.createDriver(DriverType.FIREFOX);
-			else
-				driver = DriverFactory.createDriver(DriverType.CHROME);
-		}
-		return driver;
+		if (driver.get() == null)
+			driver.set(DriverFactory.createDriver(getDriverType()));
+		return driver.get();
 	}
 	
 	/**
@@ -31,8 +27,17 @@ public class DriverManager {
 	 */
 	public static void destroy() {
 		if (driver != null) {
-			driver.quit();
-			driver = null;
+			driver.get().quit();
+			driver.set(null);
 		}
+	}
+
+	/**
+	 * Verifica o tipo do driver a ser instanciado
+	 * @return tipo do driver desejado para execução
+	 */
+	private static DriverType getDriverType() {
+		return (StringUtils.isNotBlank(System.getProperty("browser")) && System.getProperty("browser").equalsIgnoreCase("firefox"))?
+				DriverType.FIREFOX : DriverType.CHROME;
 	}
 }
