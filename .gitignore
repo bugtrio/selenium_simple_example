@@ -1,5 +1,6 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+test-output/
 
 ### STS ###
 .apt_generated
@@ -159,3 +160,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Intellij
+.idea/
