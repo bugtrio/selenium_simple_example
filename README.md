@@ -39,7 +39,7 @@ O objetivo desta POC é utilizar a melhor combinação de tecnologias para criar
 - Cucumber
   - Ferramenta utilizada integração com BDD
   
-- JUnit
+- TestNG
   - Framework de testes utilizado para realizar as asserções dos testes
 
 - ExtentReports
@@ -106,6 +106,19 @@ mvn clean test -Dbrowser=firefox
 ```
 mvn clean test -Dheadless=true
 ```
+	
+  4. Execução: Paralela
+    
+```
+mvn clean test -Dthreads=N
+```
+> **N** corresponde ao número de threads desejadas
+
+  5. Execução: Remota
+    
+```
+mvn clean test -Dremote=true
+```
 
 Após qualquer uma das execuções, o relatório "Report.html" é gerado dentro do diretório "test-output/Spark" contendo os resultados obtidos, os gráficos relacionados e screenshots.
  
@@ -117,4 +130,24 @@ Utilizando a execução através da build do Maven, "mvn clean test" ou "mvn cle
 
 ### Docker
 
-Não foi criado um container contendo todos os pre-requisitos desta POC, mas da forma que está implementado, basta criar/obter um container com as ferramentas base e realizar um clone do projeto que é possível executar os testes implementados.
+- **Configuração do container:**
+
+1 - Instalação imagem **selenium hub**:
+```
+docker pull selenium/hub
+```
+2 - Instalação imagem **node Chrome e Firefox**
+```
+docker pull selenium/node-chrome && docker pull selenium/node-firefox
+```
+- **Inicialização do container com docker-compose:**
+
+```
+docker-compose -f docker-compose.yml up
+```
+> O arquivo docker-compose.yml está presente na raiz do projeto
+
+Uma vez que o container docker seja inicializado com sucesso basta seguir a execução remota do projeto:
+```
+mvn clean test -Dremote=true
+```
