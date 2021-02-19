@@ -39,7 +39,7 @@ O objetivo desta POC é utilizar a melhor combinação de tecnologias para criar
 - Cucumber
   - Ferramenta utilizada integração com BDD
   
-- JUnit
+- TestNG
   - Framework de testes utilizado para realizar as asserções dos testes
 
 - ExtentReports
@@ -69,7 +69,7 @@ O objetivo desta POC é utilizar a melhor combinação de tecnologias para criar
   - *O BDD não é automação de testes! FATO!* Mas a utilização de frameworks que interpretam a linguagem Gherkin e associa às chamadas das Pages permite com que Casos de Testes escritos neste modelo sejam utilizados como input para execução de testes automatizados. Para esta POC, os cenários de testes foram escritos seguindo a boa prática de não ser um script de teste, ou seja, detalhado demais. Além disto, palavras chaves como "Backgroud" e "Tags" foram utilizadas para realizar o reaproveitamento e melhor uso possível das informações que foram disponibilizadas.
 
 - **Validators**
-  - Utilizando o JUnit, foi criada uma classe especializada em realizar as asserções dos testes de forma segregada, o que permite que estas validações possam ser trabalhadas de maneira apartada do restante do código. As chamadas de validações foram incuídas em pontos onde os testes deveriam ser validados para garantir que o resultado obtido é igual ao resultado esperado.
+  - Utilizando o TestNG, foi criada uma classe especializada em realizar as asserções dos testes de forma segregada, o que permite que estas validações possam ser trabalhadas de maneira apartada do restante do código. As chamadas de validações foram incuídas em pontos onde os testes deveriam ser validados para garantir que o resultado obtido é igual ao resultado esperado.
 
 - **Report Automático**
   - Utilizando o framework "ExtentReports", após cada execução um relatório html é gerado no diretório "test-output" contendo informações sobre o resultado obtido bem como screenshots do último passo de cada cenário. Este relatório possui dashboards para apresentações executivas e também informações detalhadas (stacktrace) dos erros que possam ter ocorrido.
@@ -106,6 +106,19 @@ mvn clean test -Dbrowser=firefox
 ```
 mvn clean test -Dheadless=true
 ```
+	
+  4. Execução: Paralela
+    
+```
+mvn clean test -Dthreads=N
+```
+> **N** corresponde ao número de threads desejadas
+
+  5. Execução: Remota
+    
+```
+mvn clean test -Dremote=true
+```
 
 Após qualquer uma das execuções, o relatório "Report.html" é gerado dentro do diretório "test-output/Spark" contendo os resultados obtidos, os gráficos relacionados e screenshots.
  
@@ -117,4 +130,24 @@ Utilizando a execução através da build do Maven, "mvn clean test" ou "mvn cle
 
 ### Docker
 
-Não foi criado um container contendo todos os pre-requisitos desta POC, mas da forma que está implementado, basta criar/obter um container com as ferramentas base e realizar um clone do projeto que é possível executar os testes implementados.
+- **Configuração do container:**
+
+1 - Instalação imagem **selenium hub**:
+```
+docker pull selenium/hub
+```
+2 - Instalação imagem **node Chrome e Firefox**
+```
+docker pull selenium/node-chrome && docker pull selenium/node-firefox
+```
+- **Inicialização do container com docker-compose:**
+
+```
+docker-compose -f docker-compose.yml up
+```
+> O arquivo docker-compose.yml está presente na raiz do projeto
+
+Uma vez que o container docker seja inicializado com sucesso basta seguir a execução remota do projeto:
+```
+mvn clean test -Dremote=true
+```
