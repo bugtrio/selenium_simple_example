@@ -1,0 +1,28 @@
+version: '2'
+services:
+  firefox:
+    image: selenium/node-firefox
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+      NODE_MAX_INSTANCES: 5
+      NODE_MAX_SESSION: 5
+
+  chrome:
+    image: selenium/node-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+      NODE_MAX_INSTANCES: 5
+      NODE_MAX_SESSION: 5
+
+  hub:
+    image: selenium/hub
+    ports:
+      - "4444:4444"

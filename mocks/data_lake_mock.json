@@ -1,0 +1,14 @@
+{
+	"valid": {
+		"id": "ffa6eej339",
+		"name": "Kit Fralda Pampers Premium Care Jumbo Tamanho M 240 Unidades"
+	},
+	"unavailable": {
+		"id": "452722000",
+		"name": ""
+	},
+	"invalid": {
+		"id": "invalidproduct",
+		"name": ""
+	}
+}
