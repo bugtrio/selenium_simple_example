@@ -163,3 +163,4 @@ $RECYCLE.BIN/
 
 # Intellij
 .idea/
+/selenium_simple_example.iml
