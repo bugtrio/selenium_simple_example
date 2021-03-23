@@ -128,6 +128,8 @@ Após qualquer uma das execuções, o relatório "Report.html" é gerado dentro 
 
 Utilizando a execução através da build do Maven, "mvn clean test" ou "mvn clean test -Dheadless=true" é possível criar um job em um pipeline onde os testes implementados nesta solução serão executados. Como foram implementados Asserts em pontos cruciais, caso algum falhe, a build do job irá quebrar.
 
+Para exemplificar ou servir de apoio, no próprio projeto existe o arquivo "Jenkinsfile" que contém o código para um pipeline utilizando a ferramenta Jenkins.
+
 ### Docker
 
 - **Configuração do container:**
